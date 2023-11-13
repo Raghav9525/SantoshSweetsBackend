@@ -9,7 +9,6 @@ const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 app.use(bodyParser.json());
 require('dotenv').config();
-const secretKey = "54321";
 
 // to allow all urls
 const corsOptions = {
@@ -27,6 +26,14 @@ const pool = mysql.createPool({
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
+  });
+  
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error('Error getting a database connection:', err);
+    }else{
+      console.log("connectionn successful");
+    }
   });
 
 //order 
@@ -101,11 +108,6 @@ app.post("/signup", (req, res) => {
     });
 })
 
-
-
-app.get("/", (req, res) => {
-    console.log("home page");
-})
 
 app.post("/login", (req, res) => {
     // Assuming you receive the username and password in the request body
